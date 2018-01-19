@@ -36,11 +36,12 @@ async function refreshRanking() {
     var tournaments = await challongeService.getATTATournaments();
     tournaments = tournaments
         .filter(tournament => tournament.description.toLowerCase().includes(RANKING_ELIGIBLE_TAG))
+        .filter(tournament => tournament.completedAt != null)
         .map(t => t.url);
 
 
     // rank tournaments by "startedAt" time
-    tournaments = lodash.sortBy(tournaments, 'startedAt');
+    tournaments = lodash.sortBy(tournaments, 'completedAt');
 
     console.log('will analyze tournaments in serie: ', tournaments);
 
@@ -49,7 +50,6 @@ async function refreshRanking() {
     // we want to run tournaments in serie, not in parallel.
     for (var tournamentId of tournaments) {
         await updateRanking(scoreByAlias, tournamentId)
-        console.log('scores after tournament ', tournamentId, scoreByAlias);
     }
         
     // empty the array before update
@@ -63,6 +63,7 @@ async function refreshRanking() {
     });
 
     ranking = lodash.sortBy(ranking, 'score').reverse();
+    console.log('current ranking \n', ranking);
 }
 
 async function updateRanking(scoreByAlias, tournamentId) {
