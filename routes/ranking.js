@@ -62,7 +62,7 @@ async function refreshRanking() {
         });
     });
 
-    ranking = lodash.sortBy(ranking, 'score').reverse();
+    ranking = lodash.sortBy(ranking, ['score', 'alias']).reverse();
     console.log('current ranking \n', ranking);
 }
 
@@ -84,7 +84,7 @@ async function updateRanking(scoreByAlias, tournamentId) {
 
     var matches = await challongeService.getMatches(tournamentId);
 
-    lodash.forEach(matches, async match => {
+    matches.forEach(match => {
         var newScores = null;
 
         var winnerAlias = participantById.get(match.winner).name;
