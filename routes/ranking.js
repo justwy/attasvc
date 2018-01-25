@@ -4,7 +4,8 @@ var router = express.Router();
 
 var cron = require('node-cron');
 // refresh every day at mid night
-cron.schedule('0 0 * * *', async function(){
+//cron.schedule('0 0 * * *', async function(){
+cron.schedule('*/10 * * * * *', async function(){
     refreshRanking();
 });
 
@@ -48,6 +49,7 @@ async function refreshRanking() {
     // and then iterate the following calculation for each tournament
     // Wrong: await Promise.all(tournaments.map(tournamentId => updateRanking(scoreByAlias, tournamentId)));
     // we want to run tournaments in serie, not in parallel.
+    scoreByAlias.clear() // empty the scores for everyone because we will recalculate.
     for (var tournamentId of tournaments) {
         await updateRanking(scoreByAlias, tournamentId)
     }
@@ -102,6 +104,8 @@ async function updateRanking(scoreByAlias, tournamentId) {
 
         setScore(scoreByAlias, winnerAlias, newScores[0]);
         setScore(scoreByAlias, loserAlias, newScores[1]);
+
+        console.log('evaluating match: ', match, ' ', winnerAlias, ' won ', loserAlias);
     });
 }
 
