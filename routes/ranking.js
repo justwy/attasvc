@@ -4,8 +4,7 @@ var router = express.Router();
 
 var cron = require('node-cron');
 // refresh every day at mid night
-//cron.schedule('0 0 * * *', async function(){
-cron.schedule('*/10 * * * * *', async function(){
+cron.schedule('0 0 * * *', async function(){
     refreshRanking();
 });
 
@@ -104,8 +103,6 @@ async function updateRanking(scoreByAlias, tournamentId) {
 
         setScore(scoreByAlias, winnerAlias, newScores[0]);
         setScore(scoreByAlias, loserAlias, newScores[1]);
-
-        console.log('evaluating match: ', match, ' ', winnerAlias, ' won ', loserAlias);
     });
 }
 
