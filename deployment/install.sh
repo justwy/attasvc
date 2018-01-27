@@ -8,7 +8,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | b
 . ~/.nvm/nvm.sh
 
 # install a version of nodejs
-nvm install 8
+nvm install 8.9.4
 
 # install pm2 module globaly
 npm install -g pm2
