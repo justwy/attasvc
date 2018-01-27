@@ -12,22 +12,22 @@ permissions:
       - file
 hooks:
   BeforeInstall:
-    - location: install.sh
+    - location: deployment/install.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
   AfterInstall:
-    - location: post_install.sh
+    - location: deployment/post_install.sh
       timeout: 600
       runas: ec2-user
   ApplicationStart:
-    - location: run.sh
+    - location: deployment/run.sh
       timeout: 120
       runas: ec2-user
   ApplicationStop:
-    - location: stop.sh
+    - location: deployment/stop.sh
       timeout: 120
       runas: ec2-user
   ValidateService:
-    - location: validate.sh
+    - location: deployment/validate.sh
       timeout: 60
       runas: ec2-user
